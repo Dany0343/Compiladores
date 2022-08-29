@@ -10,7 +10,7 @@ espaciosVacios = 0
 def run():
     # Lectura de archivo
     f = open("ProyectoFinal.txt", "r")
-    global espaciosVacios
+    global espaciosVacios # Se especifica que podemos utilizar la variable global
 
     #Se comienza a iterar el archivo
     for i in f:
