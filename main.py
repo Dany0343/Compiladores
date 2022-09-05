@@ -10,7 +10,7 @@ espaciosVacios = 0
 palabrasReservadasCpp = [ "auto", "const", "double", "float", "int", "short", "struct", "unsigned", "break", "continue", "else", "for", "long", "signed", "switch", "void", "case", "default", "enum", "goto", "register", "sizeof", "typedef", "volatile", "char", "do", "extern", "if", "return", "static", "union", "while", "asm", "dynamic_cast", "namespace", "reinterpret_cast", "try", "bool", "explicit", "new", "static_cast", "typeid", "catch", "false", "operator", "template", "typename", "class", "friend", "private", "this", "using", "const_cast", "inline", "public", "throw", "virtual", "delete", "mutable", "protected", "true", "wchar_t", "and", "bitand", "compl", "not_eq", "or_eq", "xor_eq", "and_eq", "bitor", "not", "or", "xor" 
 ]
 palabrasReservadasPython = keyword.kwlist
-print(palabrasReservadasPython)
+print(palabrasReservadasPython) # Se imprimen en pantalla las palabras reservadas de Python, están guardadas en una lista
 
 # Funciones
 def revisarRe(cadena):
@@ -30,12 +30,13 @@ def run():
     for i in f:
         if i != '\n': #Se revisa si el renglon no está vacío
             cadena = i # Equivale al renglon actual del archivo
-
+            for j in cadena:
+                a.write(f"{j}\n")
             # Quitar identación
-            cadena = cadena.strip()
+            # cadena = cadena.strip()
 
-            a.write(f"{cadena}\n")
-            revisarRe(cadena)
+            # a.write(f"{cadena}\n")
+            # revisarRe(cadena)
 
             # Revisar si caracteres especiales están completos
         else:
