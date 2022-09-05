@@ -12,13 +12,19 @@ palabrasReservadasCpp = [ "auto", "const", "double", "float", "int", "short", "s
 palabrasReservadasPython = keyword.kwlist
 print(palabrasReservadasPython) # Se imprimen en pantalla las palabras reservadas de Python, están guardadas en una lista
 
+# Expresiones regulares
+def comments(cadena): 
+    x = re.search("([\'\"])\1\1(.*?)\1{3}", cadena)
+    return x
+
+
 # Funciones
 def revisarRe(cadena):
-    x = re.search("Aqui va la expresion regular", cadena)
+    x = comments(cadena)
     if x:
-        print("Hay coincidencia")
+        return "Hay coincidencia"
     else: 
-        print("No hay coincidencia")
+        return "No hay coincidencia"
 
 # Funcion principal
 def run():
@@ -30,13 +36,13 @@ def run():
     for i in f:
         if i != '\n': #Se revisa si el renglon no está vacío
             cadena = i # Equivale al renglon actual del archivo
-            for j in cadena:
-                a.write(f"{j}\n")
+            # for j in cadena:
+            #     a.write(f"{j}\n")
             # Quitar identación
             # cadena = cadena.strip()
 
-            # a.write(f"{cadena}\n")
-            # revisarRe(cadena)
+            a.write(f"{cadena}\n") 
+            print(revisarRe(cadena))
 
             # Revisar si caracteres especiales están completos
         else:
