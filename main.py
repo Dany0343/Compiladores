@@ -32,7 +32,7 @@ def run():
             cadena = i # Equivale al renglon actual del archivo
 
             # Quitar identación
-            # cadena = cadena.strip()
+            cadena = cadena.strip()
 
             a.write(f"{cadena}\n")
             revisarRe(cadena)
