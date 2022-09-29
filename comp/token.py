@@ -28,19 +28,17 @@ class TokenType(Enum):
     IF = auto()
     ILLEGAL = auto()
     INT = auto()
-    # LBRACE = auto()
-    # LET = auto()
     LPAREN = auto()
     LT = auto() # '<'
     MINUS = auto()
     MULT = auto()
     NOT_EQ = auto()
     PLUS = auto()
-    # RBRACE = auto()
     RETURN = auto()
     RPAREN = auto()
     SEMICOLON = auto()
     TRUE = auto()
+    WSPACE = auto()   # Pendiente
 
 
 class Token(NamedTuple):
