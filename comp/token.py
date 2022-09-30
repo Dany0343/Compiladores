@@ -17,28 +17,31 @@ class TokenType(Enum):
     COMMA = auto()
     COLON = auto()
     DIV = auto()
+    DEDENT = auto() # Pendiente
     ELSE = auto()
     EOF = auto()
     EQ = auto() # '='
     EXC = auto() # '!'
     FALSE = auto()
+    FOR = auto()
     FUNCTION = auto()
     GT = auto() # '>'
-    IDENT = auto()
+    IDENT = auto()  # Pendiente
     IF = auto()
     ILLEGAL = auto()
+    IN = auto()
     INT = auto()
     LPAREN = auto()
     LT = auto() # '<'
     MINUS = auto()
     MULT = auto()
     NOT_EQ = auto()
+    NEWLINE = auto() # Pendiente
     PLUS = auto()
     RETURN = auto()
     RPAREN = auto()
     SEMICOLON = auto()
     TRUE = auto()
-    WSPACE = auto()   # Pendiente
 
 
 class Token(NamedTuple):
@@ -61,6 +64,8 @@ def lookup_token_type(literal: str) -> TokenType: # Recibe una literal y regresa
         'if': TokenType.IF,
         'else': TokenType.ELSE,
         'True': TokenType.TRUE,
+        'for': TokenType.FOR,
+        'in': TokenType.IN,
     } 
 
     return keywords.get(literal, TokenType.IDENT) # Aqui revisa si es una llave de la lista de palabras reservadas que tenemos en el diccionario o si no es un identificador (para nombrar algo y a libre eleccion)

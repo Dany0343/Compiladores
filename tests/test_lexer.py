@@ -102,18 +102,27 @@ class LexerTest(TestCase): # Se extiende de TestCase para hacer testing, es una 
     #     self.assertEquals(tokens, expected_tokens)
 
     def test_white_spaces(self) -> None:
-        source: str = "x + y"
+        source: str = '''
+        def suma(x + y):
+            return x + y'''
         lexer: Lexer = Lexer(source)
         
         tokens: List[Token] = []
-        for i in range(5):
+        for i in range(12):
             tokens.append(lexer.next_token())
         
         expected_tokens: List[Token] = [
+            Token(TokenType.FUNCTION, 'def'),
+            Token(TokenType.IDENT, 'suma'),
+            Token(TokenType.LPAREN, '('),
             Token(TokenType.IDENT, 'x'),
-            Token(TokenType.WSPACE, ' '),
             Token(TokenType.PLUS, '+'),
-            Token(TokenType.WSPACE, ' '),
+            Token(TokenType.IDENT, 'y'),
+            Token(TokenType.RPAREN, ')'),
+            Token(TokenType.COLON, ':'),
+            Token(TokenType.RETURN, 'return'),
+            Token(TokenType.IDENT, 'x'),
+            Token(TokenType.PLUS, '+'),
             Token(TokenType.IDENT, 'y'),
         ]
         self.assertEquals(tokens, expected_tokens) # Lo necesitamos si no el test no sirve de nada
