@@ -1,11 +1,13 @@
-from lib2to3.pgen2.tokenize import TokenError
 from re import match
+from textwrap import dedent
 from comp.token import (
     Token,
     TokenType,
     lookup_token_type,
 )
-
+from typing import List
+# Global variables
+indents = [0]
 
 class Lexer:
     def __init__(self, source: str) -> None: # Constructor
@@ -20,65 +22,71 @@ class Lexer:
         self._read_character()
 
 
-    def next_token(self) -> Token:
+    def next_token(self) -> List[Token]:
 
         # Se va a revisar con expresiones regulares
         """
         En Python las expresiones regulares empiezan con cadenas row
         Comience al principio de la cadena, encuentre un igual y que termine en esto, se quiere un igual desde el principio hasta el final
         """
-        self._skip_whitespace() # Se ignoraran los espacios en blanco siempre al empezar un nuevo token
+        # self._skip_whitespace() # Se ignoraran los espacios en blanco siempre al empezar un nuevo token
 
         if match(r'^=$', self._character):
             if self._peek_character() == '=':
                 token = self._make_two_character_token(TokenType.EQ)
             else: 
-                token = Token(TokenType.ASSIGN, self._character)
+                token = [Token(TokenType.ASSIGN, self._character)]
         elif match(r'^\+$', self._character):  # Se escapa por tener un significado especial en las expresiones regulares
-            token = Token(TokenType.PLUS, self._character)
+            token = [Token(TokenType.PLUS, self._character)]
         elif match(r'^$', self._character):
-            token = Token(TokenType.EOF, self._character)
+            token = [Token(TokenType.EOF, self._character)]
         elif match(r'^\($', self._character): # Se escapa por tener un significado especial en las expresiones regulares
-            token = Token(TokenType.LPAREN, self._character)
+            token = [Token(TokenType.LPAREN, self._character)]
         elif match(r'^\)$', self._character): # Se escapa por tener un significado especial en las expresiones regulares
-            token = Token(TokenType.RPAREN, self._character)
+            token = [Token(TokenType.RPAREN, self._character)]
         elif match(r'^,$', self._character):
-            token = Token(TokenType.COMMA, self._character)
+            token = [Token(TokenType.COMMA, self._character)]
         elif match(r'^;$', self._character):
-            token = Token(TokenType.SEMICOLON, self._character)
+            token = [Token(TokenType.SEMICOLON, self._character)]
         elif match(r'^<$', self._character):
-            token = Token(TokenType.LT, self._character)
+            token = [Token(TokenType.LT, self._character)]
         elif match(r'^/$', self._character):
-            token = Token(TokenType.DIV, self._character)
+            token = [Token(TokenType.DIV, self._character)]
         elif match(r'^-$', self._character):
-            token = Token(TokenType.MINUS, self._character)
+            token = [Token(TokenType.MINUS, self._character)]
         elif match(r'^\*$', self._character): # Se escapa por tener un significado especial en las expresiones regulares
-            token = Token(TokenType.MULT, self._character)
+            token = [Token(TokenType.MULT, self._character)]
         elif match(r'^>$', self._character):
-            token = Token(TokenType.GT, self._character)
+            token = [Token(TokenType.GT, self._character)]
         elif match(r'^!$', self._character):
             if self._peek_character() == '=':
                 token = self._make_two_character_token(TokenType.NOT_EQ)
             else: 
-                token = Token(TokenType.EXC, self._character)
+                token = [Token(TokenType.EXC, self._character)]
         elif match(r'^:$', self._character):
-            token = Token(TokenType.COLON, self._character)
+            token = [Token(TokenType.COLON, self._character)]
         elif match(r'^\n$', self._character):
-            token = Token(TokenType.NEWLINE, self._character)
+            token = [Token(TokenType.NEWLINE, self._character)]
         # Funciones auxiliares, en lugar de generar una expresion regular se generan funciones auxiliares
         elif self._is_letter(self._character): # Ahora si nos encontramos frente a un caracter lo que se quiere es generar una literal, donde se genera una funcion y luego se conoce que tipo de Token es
             literal = self._read_identifier()
             # Ahora como podemos tener un identifier o keyword se genera esta funcion
             token_type = lookup_token_type(literal) # Esta funcion se genera en token.py
 
-            return Token(token_type, literal) # Se regresa lo que mande la funcion lookup y la literal
+            return [Token(token_type, literal)] # Se regresa lo que mande la funcion lookup y la literal
         # Se necesita saber si estamos frente a un numero
         elif self._is_number(self._character):
             literal = self._read_number()
 
-            return Token(TokenType.INT, literal)
+            return [Token(TokenType.INT, literal)]
+        elif self._is_space(self._character):
+            literal = self._read_space()
+            token = self.indent_algorithm(literal)
+
+            return token # Ya no se necesita regresarlo como lista ya que desde indent algorithm ya viene como lista
+
         else: # Si no reconoce entonces dirá que es un Token ilegal
-            token = Token(TokenType.ILLEGAL, self._character)
+            token = [Token(TokenType.ILLEGAL, self._character)]
 
         """
         Se tiene que escapar especificamente el caracter de suma porque suma significa algo especifico en las expresiones regulares, significa que haga match por lo menos una o mas veces pero aqui no interesa la funcionalidad sino especificamente el caracter, se escapa con la diagonal invertida
@@ -117,9 +125,9 @@ class Lexer:
         return self._source[initial_position:self._position]
 
 
-    def _skip_whitespace(self) -> None:
-        while match(r'^\s$', self._character): # \s significa white space
-            self._read_character()
+    # def _skip_whitespace(self) -> None:
+    #     while match(r'^\s$', self._character): # \s significa white space
+    #         self._read_character()
 
     
     def _peek_character(self) -> str: # Funcion para conocer el siguiente caracter que viene y echar un vistazo
@@ -129,12 +137,12 @@ class Lexer:
         return self._source[self._read_position] # Por eso tenemos position y read position, porque se va viendo la posicion en la cual estamos y la siguiente es la que estamos leyendo constantemente
 
 
-    def _make_two_character_token(self, token_type: TokenType) -> Token: # Esta funcion toma el caracter actual, avanza y toma el siguiente para fusionarlos
+    def _make_two_character_token(self, token_type: TokenType) -> List[Token]: # Esta funcion toma el caracter actual, avanza y toma el siguiente para fusionarlos
         prefix = self._character # Se toma el prefijo el cual es el caracter actual
         self._read_character() # Nos movemos al siguiente
         suffix = self._character # Lo volvemos a tomar
 
-        return Token(token_type, f'{prefix}{suffix}')
+        return [Token(token_type, f'{prefix}{suffix}')]
 
 
     def _read_character(self) -> None:
@@ -147,5 +155,31 @@ class Lexer:
         self._read_position += 1
 
     
-    def _read_space(self) -> Token:
-        pass
+    def _read_space(self) -> str:
+        initial_position = self._position  # Se va a leer hasta que se encuentre el final del espacio
+        while self._is_space(self._character):
+            self._read_character()
+
+        return self._source[initial_position:self._position] 
+
+
+    def _is_space(self, character: str) -> bool:
+        return bool(match(r'^ $', character))
+    
+
+    def indent_algorithm(self, literal: str) -> List[Token]: # Algoritmo para hacer la revision de si el token es indent or dedent
+        dedents = []
+        if self._read_position == 1 and self._character == ' ':
+            print("No puede haber identacion en el inicio del programa")
+        else:
+            if len(literal) > indents[-1]:
+                indents.append(literal)
+                return [Token(TokenType.INDENT, self._character)]
+            elif len(literal) < indents[-1]:
+                while indents[-1] < len(literal):
+                    if indents[-1] == 0:
+                        dedents.append(Token(TokenType.DEDENT, self._character))
+                        return dedents
+                    indents.pop()
+                    dedents.append(Token(TokenType.DEDENT, self._character))
+                return dedents

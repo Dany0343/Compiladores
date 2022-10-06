@@ -110,6 +110,8 @@ class LexerTest(TestCase): # Se extiende de TestCase para hacer testing, es una 
         tokens: List[Token] = []
         for i in range(13):
             tokens.append(lexer.next_token())
+
+        tokens = flatting(tokens)
         
         expected_tokens: List[Token] = [
             Token(TokenType.NEWLINE, '\n'),
@@ -272,3 +274,13 @@ class LexerTest(TestCase): # Se extiende de TestCase para hacer testing, es una 
     #     ]
 
     #     self.assertEquals(tokens, expected_tokens)
+
+def flatting(tokens) -> List[Token]:
+    flat_list = []
+    for element in tokens:
+        if type(element) is List:
+            for item in element:
+                flat_list.append(item)
+        else:
+            flat_list.append(element)
+    return flat_list
