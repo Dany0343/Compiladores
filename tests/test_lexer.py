@@ -108,10 +108,12 @@ class LexerTest(TestCase): # Se extiende de TestCase para hacer testing, es una 
         lexer: Lexer = Lexer(source)
         
         tokens: List[Token] = []
-        for i in range(12):
+        for i in range(13):
             tokens.append(lexer.next_token())
         
         expected_tokens: List[Token] = [
+            Token(TokenType.NEWLINE, '\n'),
+            Token(TokenType.INDENT, '        '),
             Token(TokenType.FUNCTION, 'def'),
             Token(TokenType.IDENT, 'suma'),
             Token(TokenType.LPAREN, '('),
@@ -120,6 +122,8 @@ class LexerTest(TestCase): # Se extiende de TestCase para hacer testing, es una 
             Token(TokenType.IDENT, 'y'),
             Token(TokenType.RPAREN, ')'),
             Token(TokenType.COLON, ':'),
+            Token(TokenType.NEWLINE, '\n'),
+            Token(TokenType.INDENT, '            '),
             Token(TokenType.RETURN, 'return'),
             Token(TokenType.IDENT, 'x'),
             Token(TokenType.PLUS, '+'),

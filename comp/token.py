@@ -26,7 +26,8 @@ class TokenType(Enum):
     FOR = auto()
     FUNCTION = auto()
     GT = auto() # '>'
-    IDENT = auto()  # Pendiente
+    IDENT = auto()
+    INDENT = auto()  # Pendiente
     IF = auto()
     ILLEGAL = auto()
     IN = auto()

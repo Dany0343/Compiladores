@@ -28,6 +28,7 @@ class Lexer:
         Comience al principio de la cadena, encuentre un igual y que termine en esto, se quiere un igual desde el principio hasta el final
         """
         self._skip_whitespace() # Se ignoraran los espacios en blanco siempre al empezar un nuevo token
+
         if match(r'^=$', self._character):
             if self._peek_character() == '=':
                 token = self._make_two_character_token(TokenType.EQ)
@@ -62,6 +63,8 @@ class Lexer:
                 token = Token(TokenType.EXC, self._character)
         elif match(r'^:$', self._character):
             token = Token(TokenType.COLON, self._character)
+        elif match(r'^\n$', self._character):
+            token = Token(TokenType.NEWLINE, self._character)
         # Funciones auxiliares, en lugar de generar una expresion regular se generan funciones auxiliares
         elif self._is_letter(self._character): # Ahora si nos encontramos frente a un caracter lo que se quiere es generar una literal, donde se genera una funcion y luego se conoce que tipo de Token es
             literal = self._read_identifier()
@@ -142,3 +145,7 @@ class Lexer:
 
         self._position = self._read_position
         self._read_position += 1
+
+    
+    def _read_space(self) -> Token:
+        pass
