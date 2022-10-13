@@ -1,5 +1,4 @@
 from re import match
-from textwrap import dedent
 from comp.token import (
     Token,
     TokenType,
@@ -38,6 +37,8 @@ class Lexer:
                 token = [Token(TokenType.ASSIGN, self._character)]
         elif match(r'^\+$', self._character):  # Se escapa por tener un significado especial en las expresiones regulares
             token = [Token(TokenType.PLUS, self._character)]
+        elif match(r'^\n$', self._character):
+            token = [Token(TokenType.NEWLINE, self._character)]
         elif match(r'^$', self._character):
             token = [Token(TokenType.EOF, self._character)]
         elif match(r'^\($', self._character): # Se escapa por tener un significado especial en las expresiones regulares
@@ -65,8 +66,6 @@ class Lexer:
                 token = [Token(TokenType.EXC, self._character)]
         elif match(r'^:$', self._character):
             token = [Token(TokenType.COLON, self._character)]
-        elif match(r'^\n$', self._character):
-            token = [Token(TokenType.NEWLINE, self._character)]
         # Funciones auxiliares, en lugar de generar una expresion regular se generan funciones auxiliares
         elif self._is_letter(self._character): # Ahora si nos encontramos frente a un caracter lo que se quiere es generar una literal, donde se genera una funcion y luego se conoce que tipo de Token es
             literal = self._read_identifier()
@@ -164,7 +163,7 @@ class Lexer:
 
 
     def _is_space(self, character: str) -> bool:
-        return bool(match(r'^ $', character))
+        return bool(match(r'^\s$', character))
     
 
     def indent_algorithm(self, literal: str) -> List[Token]: # Algoritmo para hacer la revision de si el token es indent or dedent
@@ -173,7 +172,7 @@ class Lexer:
             print("No puede haber identacion en el inicio del programa")
         else:
             if len(literal) > indents[-1]:
-                indents.append(literal)
+                indents.append(len(literal))
                 return [Token(TokenType.INDENT, self._character)]
             elif len(literal) < indents[-1]:
                 while indents[-1] < len(literal):
@@ -182,4 +181,4 @@ class Lexer:
                         return dedents
                     indents.pop()
                     dedents.append(Token(TokenType.DEDENT, self._character))
-                return dedents
+        return dedents

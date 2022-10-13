@@ -107,11 +107,11 @@ class LexerTest(TestCase): # Se extiende de TestCase para hacer testing, es una 
             return x + y'''
         lexer: Lexer = Lexer(source)
         
-        tokens: List[Token] = []
+        tokens: List[List[Token]] = []
         for i in range(13):
             tokens.append(lexer.next_token())
 
-        tokens = flatting(tokens)
+        newtokens = flatting(tokens)
         
         expected_tokens: List[Token] = [
             Token(TokenType.NEWLINE, '\n'),
@@ -131,7 +131,7 @@ class LexerTest(TestCase): # Se extiende de TestCase para hacer testing, es una 
             Token(TokenType.PLUS, '+'),
             Token(TokenType.IDENT, 'y'),
         ]
-        self.assertEquals(tokens, expected_tokens) # Lo necesitamos si no el test no sirve de nada
+        self.assertEquals(newtokens, expected_tokens) # Lo necesitamos si no el test no sirve de nada
     
     # def test_function_declaration(self) -> None:
     #     # Este source sin problemas puede ser leído desde un archivo pero para motivos practivos del test se pasa directamente

@@ -4,10 +4,11 @@ from comp.token import (
     Token,
     TokenType
 )
-
+from typing import List
 
 EOF_TOKEN: Token = Token(TokenType.EOF, '') # Variable global que nos indica el fin de la oracion
-
+tokens: List[List[Token]] = []
+newTokens: List[Token] = []
 
 def start_repl() -> None:   # Aquí no tenemos self como parametro ya que es una función global, no pertenece a una clase, no regresa nada
 
@@ -15,5 +16,22 @@ def start_repl() -> None:   # Aquí no tenemos self como parametro ya que es una
     while (source := input('>> ')) != 'salir()':
         lexer: Lexer = Lexer(source)
 
+        while (token := lexer.next_token()):
+            tokens.append(token)
+        
+        flat_list = flatting(tokens)
+
         while (token := lexer.next_token()) != EOF_TOKEN:
-            print(token)
+            print(flat_list[i])
+            i += 1
+
+
+def flatting(tokens) -> List[Token]:
+    flat_list = []
+    for element in tokens:
+        if type(element) is List:
+            for item in element:
+                flat_list.append(item)
+        else:
+            flat_list.append(element)
+    return flat_list
