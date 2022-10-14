@@ -11,7 +11,7 @@ from comp.lexer import Lexer
 
 def test_white_spaces() -> None:
     source: str = \
-    '''def suma(x + y):
+    '''def    suma(x + y):
         return x + y'''
     lexer: Lexer = Lexer(source)
     

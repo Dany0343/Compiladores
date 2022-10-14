@@ -42,6 +42,7 @@ class TokenType(Enum):
     RETURN = auto()
     RPAREN = auto()
     SEMICOLON = auto()
+    SPACE = auto()
     TRUE = auto()
 
 

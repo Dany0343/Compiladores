@@ -5,6 +5,7 @@ from comp.token import (
     lookup_token_type,
 )
 from typing import List
+
 # Global variables
 indents = [0]
 
@@ -16,7 +17,6 @@ class Lexer:
         self._character: str = ''
         self._read_position: int = 0
         self._position: int = 0
-
         # Cuando se inicializa se necesita correr por primera vez para que los caracteres se pongan correctamente
         self._read_character()
 
@@ -78,14 +78,17 @@ class Lexer:
             literal = self._read_number()
 
             return [Token(TokenType.INT, literal)]
-        elif self._is_space(self._character):
-            literal = self._read_space()
-            token = self.indent_algorithm(literal)
+        # elif self._is_tab(self._character):
+        #     literal = self._read_tab()
+        #     token = self.indent_algorithm(literal)
 
-            return token # Ya no se necesita regresarlo como lista ya que desde indent algorithm ya viene como lista
-
-        else: # Si no reconoce entonces dirá que es un Token ilegal
-            token = [Token(TokenType.ILLEGAL, self._character)]
+        #     return token # Ya no se necesita regresarlo como lista ya que desde indent algorithm ya viene como lista
+        elif match(r'^\t$', self._character): 
+            token = [Token(TokenType.INDENT, self._character)]
+        elif match(r'^ $', self._character): 
+            token = [Token(TokenType.SPACE, self._character)]
+        else:
+            token = [Token(TokenType.ILLEGAL, self._character)] 
 
         """
         Se tiene que escapar especificamente el caracter de suma porque suma significa algo especifico en las expresiones regulares, significa que haga match por lo menos una o mas veces pero aqui no interesa la funcionalidad sino especificamente el caracter, se escapa con la diagonal invertida
@@ -154,16 +157,16 @@ class Lexer:
         self._read_position += 1
 
     
-    def _read_space(self) -> str:
-        initial_position = self._position  # Se va a leer hasta que se encuentre el final del espacio
-        while self._is_space(self._character):
+    def _read_tab(self) -> str:
+        initial_position = self._position  # Se va a leer hasta que se encuentre el final de la identacion
+        while self._is_tab(self._character):
             self._read_character()
 
         return self._source[initial_position:self._position] 
 
 
-    def _is_space(self, character: str) -> bool:
-        return bool(match(r'^\s$', character))
+    def _is_tab(self, character: str) -> bool:
+        return bool(match(r'^\t$', character))
     
 
     def indent_algorithm(self, literal: str) -> List[Token]: # Algoritmo para hacer la revision de si el token es indent or dedent
