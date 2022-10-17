@@ -77,15 +77,13 @@ class Lexer:
             literal = self._read_number()
 
             return [Token(TokenType.INT, literal)]
-        # elif self._is_tab(self._character):
-        #     literal = self._read_tab()
-        #     token = self.indent_algorithm(literal)
+        elif self._is_tab(self._character):
+            literal = self._read_tab()
+            token = self.indent_algorithm(literal)
 
-        #     return token # Ya no se necesita regresarlo como lista ya que desde indent algorithm ya viene como lista
-        elif match(r'^\t$', self._character):
-            token = [Token(TokenType.INDENT, self._character)]
-        elif match(r'^ $', self._character): 
-            token = [Token(TokenType.SPACE, self._character)]
+            return token # Ya no se necesita regresarlo como lista ya que desde indent algorithm ya viene como lista
+        # elif match(r'^ $', self._character): 
+        #     token = [Token(TokenType.SPACE, self._character)]
         else:
             token = [Token(TokenType.ILLEGAL, self._character)] 
 
@@ -152,7 +150,7 @@ class Lexer:
 
     
     def _read_tab(self) -> str:
-        initial_position = self._position  # Se va a leer hasta que se encuentre el final de la identacion
+        initial_position = self._position  # Se va a leer hasta que se encuentre el final de toda la identacion
         while self._is_tab(self._character):
             self._read_character()
 
@@ -170,17 +168,19 @@ class Lexer:
 
     def indent_algorithm(self, literal: str) -> List[Token]: # Algoritmo para hacer la revision de si el token es indent or dedent
         dedents = []
-        if self._read_position == 1 and self._character == ' ':
+        if self._read_position == 1 and self._character == '\t':
             print("No puede haber identacion en el inicio del programa")
         else:
             if len(literal) > indents[-1]:
                 indents.append(len(literal))
-                return [Token(TokenType.INDENT, self._character)]
+                return [Token(TokenType.INDENT, literal)]
             elif len(literal) < indents[-1]:
-                while indents[-1] < len(literal):
+                while len(literal) < indents[-1]:
                     if indents[-1] == 0:
-                        dedents.append(Token(TokenType.DEDENT, self._character))
+                        dedents.append(Token(TokenType.DEDENT, literal))
                         return dedents
                     indents.pop()
-                    dedents.append(Token(TokenType.DEDENT, self._character))
-        return dedents
+                    dedents.append(Token(TokenType.DEDENT, literal))
+                return dedents
+            elif len(literal) == indents[-1]:
+                return [Token(TokenType.IGNORE, literal)]

@@ -31,6 +31,7 @@ class TokenType(Enum):
     INDENT = auto()  # Pendiente
     IF = auto()
     ILLEGAL = auto()
+    IGNORE = auto()
     IN = auto()
     INT = auto()
     LPAREN = auto()
@@ -53,9 +54,9 @@ class Token(NamedTuple):
 
     # Dounder method string que permite saber cuando se imprime el token que hay dentro
     # __str__ permite controlar la funcion global o el built-in function str
-    # En python se pueden controlar que es lo que hace el simbolo de suma, len, comparaciones, todos con dounder methods
-    def __str__(self) -> str: # La flecha significa en el mundo de typing de python que esta función va a regresar un string
-        return f'Type: {self.token_type}, Literal: {self.literal}'
+    # En python se pueden controlar que es lo que hace el simbolo de suma, len, comparaciones, todos con dounder methods, en este caso cuando queramos imprimir un objeto de tipo Token podemos modificar el como queremos verlo
+    # def __str__(self) -> str: # La flecha significa en el mundo de typing de python que esta función va a regresar un string
+    #     return f'Type: {self.token_type}, Literal: {self.literal}'
 
 
 # Funcion para leer palabras más complejas y no solo operadores
