@@ -82,8 +82,8 @@ class Lexer:
             token = self.indent_algorithm(literal)
 
             return token # Ya no se necesita regresarlo como lista ya que desde indent algorithm ya viene como lista
-        elif self._is_comment(self._character):
-            pass
+        # elif self._is_comment(self._character):
+        #     pass
         else:
             token = [Token(TokenType.ILLEGAL, self._character)] 
 
@@ -176,9 +176,6 @@ class Lexer:
                 return [Token(TokenType.INDENT, literal)]
             elif len(literal) < indents[-1]:
                 while len(literal) < indents[-1]:
-                    if indents[-1] == 0:
-                        dedents.append(Token(TokenType.DEDENT, literal))
-                        return dedents
                     indents.pop()
                     dedents.append(Token(TokenType.DEDENT, literal))
                 return dedents

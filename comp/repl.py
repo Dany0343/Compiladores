@@ -11,27 +11,18 @@ tokens: List[List[Token]] = []
 newTokens: List[Token] = []
 
 def start_repl() -> None:   # Aquí no tenemos self como parametro ya que es una función global, no pertenece a una clase, no regresa nada
-
+    print("Escriba salir() para salir al menu")
     # Walrus Operator permite generar una asignación al mismo tiempo que se puede generar algún tipo de chequeo dentro de esta variable que se comienza a asignar, muy util dentro de while loops, for loops
     while (source := input('>> ')) != 'salir()':
         lexer: Lexer = Lexer(source)
 
-        while (token := lexer.next_token()):
-            tokens.append(token)
-        
-        flat_list = flatting(tokens)
+        tokens: List[List[Token]] = []
+        for i in range(len(source)):
+            tokens.append(lexer.next_token())
 
-        while (token := lexer.next_token()) != EOF_TOKEN:
-            print(flat_list[i])
-            i += 1
-
-
-def flatting(tokens) -> List[Token]:
-    flat_list = []
-    for element in tokens:
-        if type(element) is List:
-            for item in element:
-                flat_list.append(item)
-        else:
-            flat_list.append(element)
-    return flat_list
+        newtokens = [item for items in tokens for item in items] # Se usa un list comprehension para hacerle flatting a la lista
+        for i in newtokens:
+            if i.token_type == TokenType.EOF:
+                break
+            else:
+                print(i)

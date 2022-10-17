@@ -11,16 +11,11 @@ from comp.lexer import Lexer
 
 def test_white_spaces() -> None:
     source: str = \
-    '''a 
-		b
-		c
-				d
-						e
-						f
-		g
-				h
-		i
-	s'''
+    '''a
+	b
+		f
+			c
+	a'''
     lexer: Lexer = Lexer(source)
     
     tokens: List[List[Token]] = []

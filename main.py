@@ -1,8 +1,10 @@
 from comp.repl import start_repl
 from comp.lecturaArchivo import leer
+import os
 
 def main() -> None:
-    print('''
+    while 1:
+        print('''
 
      /$$$$$$$  /$$                                                   /$$       /$$          
     | $$__  $$|__/                                                  |__/      | $$          
@@ -15,14 +17,14 @@ def main() -> None:
                                                                                         
                                                                                         
     ''')
-    print("Bienvenido al compilador de Python a C++")
-    while True:
-        opc = input("Opciones\n1. Leer el programa automaticamente desde un archivo\n2. Introducir el código a ser compilado\n3. Salir\n>> ")
-        if opc == '1':
-            pass
-        elif opc == '2':
+        print("Bienvenido al compilador de Python a C++")
+        opc = int(input("Opciones\n1. Leer el programa automaticamente desde un archivo\n2. Introducir el código a ser compilado\n3. Salir\n>> "))
+        if opc == 1:
+            leer()
+        elif opc == 2:
             start_repl()
-        elif opc == '3':
+            os.system('clear')
+        elif opc == 3:
             break
         else:
             print("Seleccione una opción valida")
