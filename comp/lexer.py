@@ -28,8 +28,7 @@ class Lexer:
         En Python las expresiones regulares empiezan con cadenas row
         Comience al principio de la cadena, encuentre un igual y que termine en esto, se quiere un igual desde el principio hasta el final
         """
-        # self._skip_whitespace() # Se ignoraran los espacios en blanco siempre al empezar un nuevo token
-
+        self._skipSpaces() # Se ignorara la tokenizacion de los espacios en blanco aun cuando hay un token especial asignado a ello
         if match(r'^=$', self._character):
             if self._peek_character() == '=':
                 token = self._make_two_character_token(TokenType.EQ)
@@ -78,16 +77,18 @@ class Lexer:
             literal = self._read_number()
 
             return [Token(TokenType.INT, literal)]
-        elif self._is_tab(self._character):
-            literal = self._read_tab()
-            # token = self.indent_algorithm(literal)
+        # elif self._is_tab(self._character):
+        #     literal = self._read_tab()
+        #     token = self.indent_algorithm(literal)
 
-            # return token # Ya no se necesita regresarlo como lista ya que desde indent algorithm ya viene como lista
-            return [Token(TokenType.INT, literal)]
+        #     return token # Ya no se necesita regresarlo como lista ya que desde indent algorithm ya viene como lista
+        elif match(r'^\t$', self._character):
+            token = [Token(TokenType.INDENT, self._character)]
         elif match(r'^ $', self._character): 
             token = [Token(TokenType.SPACE, self._character)]
         else:
-            token = [Token(TokenType.ILLEGAL, self._character)]
+            token = [Token(TokenType.ILLEGAL, self._character)] 
+
         """
         Se tiene que escapar especificamente el caracter de suma porque suma significa algo especifico en las expresiones regulares, significa que haga match por lo menos una o mas veces pero aqui no interesa la funcionalidad sino especificamente el caracter, se escapa con la diagonal invertida
         """
@@ -123,11 +124,6 @@ class Lexer:
             self._read_character() # Funcion que se implemento en el pasado, avanza un caracter
 
         return self._source[initial_position:self._position]
-
-
-    # def _skip_whitespace(self) -> None:
-    #     while match(r'^\s$', self._character): # \s significa white space
-    #         self._read_character()
 
     
     def _peek_character(self) -> str: # Funcion para conocer el siguiente caracter que viene y echar un vistazo
@@ -166,6 +162,11 @@ class Lexer:
     def _is_tab(self, character: str) -> bool:
         return bool(match(r'^\t$', character))
     
+
+    def _skipSpaces(self) -> None:
+        while match(r'^ $', self._character):
+            self._read_character()
+
 
     def indent_algorithm(self, literal: str) -> List[Token]: # Algoritmo para hacer la revision de si el token es indent or dedent
         dedents = []

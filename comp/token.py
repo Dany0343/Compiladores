@@ -16,6 +16,7 @@ class TokenType(Enum):
     ASSIGN = auto()
     COMMA = auto()
     COLON = auto()
+    COMMENT = auto() # Pendiente
     DIV = auto()
     DEDENT = auto() # Pendiente
     ELSE = auto()
@@ -37,7 +38,7 @@ class TokenType(Enum):
     MINUS = auto()
     MULT = auto()
     NOT_EQ = auto()
-    NEWLINE = auto() # Pendiente
+    NEWLINE = auto()
     PLUS = auto()
     RETURN = auto()
     RPAREN = auto()
