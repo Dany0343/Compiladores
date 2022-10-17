@@ -1,4 +1,5 @@
 from comp.repl import start_repl
+from lecturaArchivo import leer
 
 def main() -> None:
     print('''
@@ -15,9 +16,16 @@ def main() -> None:
                                                                                         
     ''')
     print("Bienvenido al compilador de Python a C++")
-    print("Escribe una oración para comenzar.")
-
-    start_repl()
+    while 1:
+        opc = int(input("Opciones\n1. Leer el programa automaticamente desde un archivo\n2. Introducir el código a ser compilado\n3. Salir\n>> "))
+        if opc == 1:
+            leer()
+        elif opc == 2:
+            start_repl()
+        elif opc == 3:
+            break
+        else:
+            print("Seleccione una opción valida")
 
 
 if __name__ == '__main__':

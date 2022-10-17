@@ -82,8 +82,8 @@ class Lexer:
             token = self.indent_algorithm(literal)
 
             return token # Ya no se necesita regresarlo como lista ya que desde indent algorithm ya viene como lista
-        # elif match(r'^ $', self._character): 
-        #     token = [Token(TokenType.SPACE, self._character)]
+        elif self._is_comment(self._character):
+            pass
         else:
             token = [Token(TokenType.ILLEGAL, self._character)] 
 
