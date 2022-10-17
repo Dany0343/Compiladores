@@ -175,22 +175,21 @@ class Lexer:
 
 
     def indent_algorithm(self, literal: str) -> List[Token]: # Algoritmo para hacer la revision de si el token es indent or dedent
-        dedents = []      
+        dedents = [] # Una lista de tipo Token DEDENT que se regresara para posteriormente hacerle flatting y tener un array de 1 dimension
+        flag = False # Bandera que actua como switch para el trigger que desencadena el ultimo token DEDENT
         if len(literal) > self._indents[-1]:
             self._indents.append(len(literal))
-            # if len(self._indents) == 2:
-            #     if self._indents[1] != 1:
-            #         self._firts_dedent_flag = False
-            #         return [Token(TokenType.INDENT, literal)]
+            if not flag:
+                self._firts_dedent_flag = False
+                flag = True
             return [Token(TokenType.INDENT, literal)]
-        # elif len(self._indents) == 2 and literal != '\t':
-        #     self._indents.pop()
-        #     dedents.append(Token(TokenType.DEDENT, literal))
         elif len(literal) < self._indents[-1]:
             while len(literal) < self._indents[-1]:
                 self._indents.pop()
                 dedents.append(Token(TokenType.DEDENT, literal))
-            self._firts_dedent_flag = False
+            if not flag:
+                self._firts_dedent_flag = False
+                flag = True
             return dedents
         elif len(literal) == self._indents[-1]:
             return [Token(TokenType.IGNORE, literal)]
