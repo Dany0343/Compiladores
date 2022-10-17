@@ -39,7 +39,7 @@ class Lexer:
             token = [Token(TokenType.PLUS, self._character)]
         elif match(r'^\n$', self._character):
             if len(self._indents) == 2 and self._firts_dedent_flag == False:
-                if self._indents[1] == 1:
+                if len(self._indents) == 2 and self._indents[1] == 1:
                     self._firts_dedent_flag = True
                     token = [Token(TokenType.NEWLINE, self._character), Token(TokenType.DEDENT, self._read_position)]
                 else:
@@ -178,7 +178,10 @@ class Lexer:
         dedents = []      
         if len(literal) > self._indents[-1]:
             self._indents.append(len(literal))
-            self._firts_dedent_flag = False
+            # if len(self._indents) == 2:
+            #     if self._indents[1] != 1:
+            #         self._firts_dedent_flag = False
+            #         return [Token(TokenType.INDENT, literal)]
             return [Token(TokenType.INDENT, literal)]
         # elif len(self._indents) == 2 and literal != '\t':
         #     self._indents.pop()
@@ -187,6 +190,7 @@ class Lexer:
             while len(literal) < self._indents[-1]:
                 self._indents.pop()
                 dedents.append(Token(TokenType.DEDENT, literal))
+            self._firts_dedent_flag = False
             return dedents
         elif len(literal) == self._indents[-1]:
             return [Token(TokenType.IGNORE, literal)]
