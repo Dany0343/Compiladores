@@ -78,18 +78,16 @@ class Lexer:
             literal = self._read_number()
 
             return [Token(TokenType.INT, literal)]
-        # elif self._is_tab(self._character):
-        #     literal = self._read_tab()
-        #     token = self.indent_algorithm(literal)
+        elif self._is_tab(self._character):
+            literal = self._read_tab()
+            # token = self.indent_algorithm(literal)
 
-        #     return token # Ya no se necesita regresarlo como lista ya que desde indent algorithm ya viene como lista
-        elif match(r'^\t$', self._character): 
-            token = [Token(TokenType.INDENT, self._character)]
+            # return token # Ya no se necesita regresarlo como lista ya que desde indent algorithm ya viene como lista
+            return [Token(TokenType.INT, literal)]
         elif match(r'^ $', self._character): 
             token = [Token(TokenType.SPACE, self._character)]
         else:
-            token = [Token(TokenType.ILLEGAL, self._character)] 
-
+            token = [Token(TokenType.ILLEGAL, self._character)]
         """
         Se tiene que escapar especificamente el caracter de suma porque suma significa algo especifico en las expresiones regulares, significa que haga match por lo menos una o mas veces pero aqui no interesa la funcionalidad sino especificamente el caracter, se escapa con la diagonal invertida
         """
