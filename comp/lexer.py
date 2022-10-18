@@ -42,6 +42,7 @@ class Lexer:
                 if len(self._indents) == 2 and self._indents[1] == 1:
                     self._firts_dedent_flag = True
                     token = [Token(TokenType.NEWLINE, self._character), Token(TokenType.DEDENT, self._read_position)]
+                    # self._indents = [0]
                 else:
                     token = [Token(TokenType.NEWLINE, self._character)]
             else:
