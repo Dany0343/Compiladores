@@ -1,5 +1,4 @@
 def leer():
-    # filename = 'ProyectoFinal.txt'
     filename = 'ProyectoFinal.txt'
     filename = open(filename, 'r')
     
