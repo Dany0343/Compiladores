@@ -1,17 +1,5 @@
-a
-	e
-	e
-		d
-		e
-			f
-				g
-					h
-					i
-						j
-					k
-				l
-			m
-		n
-		o
-	o
-sup
+def function():
+	print()
+
+def hola():
+	pass
