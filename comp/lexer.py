@@ -36,10 +36,10 @@ class Lexer:
         elif match(r'^\+$', self._character):  # Se escapa por tener un significado especial en las expresiones regulares
             token = [Token(TokenType.PLUS, self._character)]
         elif match(r'^\n$', self._character):
-            if self._peek_character() == '' and len(self._indents) > 1:
-                token = [Token(TokenType.NEWLINE, self._character),  Token(TokenType.DEDENT, self._read_position)]
-                self._indents.pop()
-            elif self._peek_character() == '\t':
+            # if self._peek_character() == '' and len(self._indents) > 1:
+            #     token = [Token(TokenType.NEWLINE, self._character),  Token(TokenType.DEDENT, self._read_position)]
+            #     self._indents.pop()
+            if self._peek_character() == '\t':
                 token = [Token(TokenType.NEWLINE, self._character)]
             elif len(self._indents) > 1:
                 token = [Token(TokenType.NEWLINE, self._character), Token(TokenType.DEDENT, self._read_position)]
