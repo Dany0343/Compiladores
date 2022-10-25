@@ -14,6 +14,7 @@ class TokenType(Enum):
     # Es buena practica ponerlos en orden alfabetico
     # auto es que no interesa el valor del enum
     ASSIGN = auto()
+    APPEND = auto()
     COMMA = auto()
     COLON = auto()
     COMMENT = auto() # Pendiente
@@ -34,15 +35,22 @@ class TokenType(Enum):
     IGNORE = auto()
     IN = auto()
     INT = auto()
+    INPUT = auto()
+    INTW = auto()
     LPAREN = auto()
-    LT = auto() # '<'
+    LEN = auto()
+    LT = auto() # <
+    LB = auto() # [
     MINUS = auto()
     MULT = auto()
     NOT_EQ = auto()
     NEWLINE = auto()
     PLUS = auto()
+    PRINT = auto()
+    RANGE = auto()
     RETURN = auto()
     RPAREN = auto()
+    RB = auto() # ]
     SEMICOLON = auto()
     SPACE = auto()
     TRUE = auto()
@@ -70,6 +78,12 @@ def lookup_token_type(literal: str) -> TokenType: # Recibe una literal y regresa
         'True': TokenType.TRUE,
         'for': TokenType.FOR,
         'in': TokenType.IN,
+        'print': TokenType.PRINT,
+        'range': TokenType.RANGE,
+        'int': TokenType.INTW,
+        'input': TokenType.INPUT,
+        'append': TokenType.APPEND,
+        'len': TokenType.LEN,
     } 
 
     return keywords.get(literal, TokenType.IDENT) # Aqui revisa si es una llave de la lista de palabras reservadas que tenemos en el diccionario o si no es un identificador (para nombrar algo y a libre eleccion)
