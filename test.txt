@@ -1,12 +1,5 @@
-<<<<<<< HEAD
 for i in range(1,10):
 	print(i)
 
 def ola():
-=======
-def function():
-	print()
-
-def hola():
->>>>>>> cba4b6634d14142f000dad60a0b4c03496e52a07
 	pass
