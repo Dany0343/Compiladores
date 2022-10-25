@@ -51,11 +51,19 @@ class Lexer:
         elif match(r'^\($', self._character): # Se escapa por tener un significado especial en las expresiones regulares
             token = [Token(TokenType.LPAREN, self._character)]
         elif match(r'^\)$', self._character): # Se escapa por tener un significado especial en las expresiones regulares
-            token = [Token(TokenType.RPAREN, self._character)]
+            if self._peek_character() == '' and len(self._indents) > 1:
+                self._indents.pop()
+                token = [Token(TokenType.RPAREN, self._character), Token(TokenType.NEWLINE, '\n'),  Token(TokenType.DEDENT, '')]
+            else:
+                token = [Token(TokenType.RPAREN, self._character)]
         elif match(r'^\[$', self._character): # Se escapa por tener un significado especial en las expresiones regulares
             token = [Token(TokenType.LB, self._character)]
         elif match(r'^\]$', self._character): # Se escapa por tener un significado especial en las expresiones regulares
-            token = [Token(TokenType.RB, self._character)]
+            if self._peek_character() == '' and len(self._indents) > 1:
+                self._indents.pop()
+                token = [Token(TokenType.RB, self._character), Token(TokenType.NEWLINE, '\n'),  Token(TokenType.DEDENT, '')]
+            else:
+                token = [Token(TokenType.RB, self._character)]
         elif match(r'^,$', self._character):
             token = [Token(TokenType.COMMA, self._character)]
         elif match(r'^;$', self._character):

@@ -1,2 +1,4 @@
-def suma(x + y):
-	return x + y
+def hola():
+	sumar = [1]
+def nmms():
+	pass
