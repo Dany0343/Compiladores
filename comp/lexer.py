@@ -42,7 +42,7 @@ class Lexer:
             if self._peek_character() == '\t':
                 token = [Token(TokenType.NEWLINE, self._character)]
             elif len(self._indents) > 1:
-                token = [Token(TokenType.NEWLINE, self._character), Token(TokenType.DEDENT, self._read_position)]
+                token = [Token(TokenType.NEWLINE, self._character), Token(TokenType.DEDENT, '')]
                 self._indents.pop()
             else: 
                 token = [Token(TokenType.NEWLINE, self._character)]
@@ -85,16 +85,19 @@ class Lexer:
             token = [Token(TokenType.DOT, self._character)]
         elif match(r'^:$', self._character):
             token = [Token(TokenType.COLON, self._character)]
+        
         # Funciones auxiliares, en lugar de generar una expresion regular se generan funciones auxiliares
         elif self._is_letter(self._character): # Ahora si nos encontramos frente a un caracter lo que se quiere es generar una literal, donde se genera una funcion y luego se conoce que tipo de Token es
             literal = self._read_identifier()
             # Ahora como podemos tener un identifier o keyword se genera esta funcion
             token_type = lookup_token_type(literal) # Esta funcion se genera en token.py
+
             if self._peek_character() == '' and len(self._indents) > 1:
                 self._indents.pop()
-                return [Token(token_type, literal), Token(TokenType.NEWLINE, self._character),  Token(TokenType.DEDENT, self._read_position)]
-            elif self._peek_character() == '':
-                return [Token(token_type, literal), Token(TokenType.NEWLINE, self._character)]
+                return [Token(token_type, literal), Token(TokenType.NEWLINE, self._character),  Token(TokenType.DEDENT, '')]
+            # elif self._peek_character() == '':
+            #     return [Token(token_type, literal), Token(TokenType.NEWLINE, self._character)]
+            
             return [Token(token_type, literal)] # Se regresa lo que mande la funcion lookup y la literal
         # Se necesita saber si estamos frente a un numero
         elif self._is_number(self._character):
@@ -106,8 +109,10 @@ class Lexer:
             token = self.indent_algorithm(literal)
 
             return token # Ya no se necesita regresarlo como lista ya que desde indent algorithm ya viene como lista
-        # elif self._is_comment(self._character):
-        #     pass
+        elif self._is_comment(self._character):
+            literal = self._read_comment()
+
+            return [Token(TokenType.COMMENT, literal)]
         else:
             token = [Token(TokenType.ILLEGAL, self._character)] 
 
@@ -194,6 +199,21 @@ class Lexer:
     def _skipSpaces(self) -> None:
         while match(r'^ $', self._character):
             self._read_character()
+
+
+    def _read_comment(self) -> str: # Se va a leer hasta que se encuentre el final de todo el comentario
+        initial_position = self._position
+
+        while self._character != '\n':
+            self._read_character()
+
+        # self._source = self._source[0 : initial_position :] + self._source[self._position ::]
+        # print(self._source)
+        return self._source[initial_position:self._position]
+
+
+    def _is_comment(self, character: str) -> bool:
+        return bool(match(r'^#$', character))
 
 
     def indent_algorithm(self, literal: str) -> List[Token]: # Algoritmo para hacer la revision de si el token es indent or dedent
