@@ -19,7 +19,9 @@ class TokenType(Enum):
     COLON = auto()
     COMMENT = auto() # Pendiente
     DIV = auto()
-    DEDENT = auto() # Pendiente de arreglar problema de ultimo dedent
+    DEDENT = auto() 
+    DOT = auto()
+    DQUOTE = auto()
     ELSE = auto()
     EOF = auto()
     EQ = auto() # '='
@@ -52,6 +54,7 @@ class TokenType(Enum):
     RPAREN = auto()
     RB = auto() # ]
     SEMICOLON = auto()
+    SQUOTE = auto()
     SPACE = auto()
     TRUE = auto()
 

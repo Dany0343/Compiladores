@@ -77,6 +77,14 @@ class Lexer:
                 token = [Token(TokenType.EXC, self._character)]
         elif match(r'^:$', self._character):
             token = [Token(TokenType.COLON, self._character)]
+        elif match(r'^\"$', self._character):
+            token = [Token(TokenType.DQUOTE, self._character)]
+        elif match(r'^\'$', self._character):
+            token = [Token(TokenType.SQUOTE, self._character)]
+        elif match(r'^\.$', self._character):
+            token = [Token(TokenType.DOT, self._character)]
+        elif match(r'^:$', self._character):
+            token = [Token(TokenType.COLON, self._character)]
         # Funciones auxiliares, en lugar de generar una expresion regular se generan funciones auxiliares
         elif self._is_letter(self._character): # Ahora si nos encontramos frente a un caracter lo que se quiere es generar una literal, donde se genera una funcion y luego se conoce que tipo de Token es
             literal = self._read_identifier()
