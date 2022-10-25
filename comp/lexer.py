@@ -94,7 +94,7 @@ class Lexer:
 
             if self._peek_character() == '' and len(self._indents) > 1:
                 self._indents.pop()
-                return [Token(token_type, literal), Token(TokenType.NEWLINE, self._character),  Token(TokenType.DEDENT, '')]
+                return [Token(token_type, literal), Token(TokenType.NEWLINE, '\n'),  Token(TokenType.DEDENT, '')]
             # elif self._peek_character() == '':
             #     return [Token(token_type, literal), Token(TokenType.NEWLINE, self._character)]
             
@@ -158,12 +158,6 @@ class Lexer:
             return ''
 
         return self._source[self._read_position] # Por eso tenemos position y read position, porque se va viendo la posicion en la cual estamos y la siguiente es la que estamos leyendo constantemente
-
-
-    def _peek_character_plus(self) -> str: # Funcion para conocer el siguiente caracter que viene y echar un vistazo
-        if self._read_position_plus >= len(self._source):
-            return ''
-        return self._source[self._read_position_plus] # Por eso tenemos position y read position, porque se va viendo la posicion en la cual estamos y la siguiente es la que estamos leyendo constantemente
 
 
     def _make_two_character_token(self, token_type: TokenType) -> List[Token]: # Esta funcion toma el caracter actual, avanza y toma el siguiente para fusionarlos
