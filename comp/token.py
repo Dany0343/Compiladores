@@ -18,7 +18,7 @@ class TokenType(Enum):
     COLON = auto()
     COMMENT = auto() # Pendiente
     DIV = auto()
-    DEDENT = auto()
+    DEDENT = auto() # Pendiente de arreglar problema de ultimo dedent
     ELSE = auto()
     EOF = auto()
     EQ = auto() # '='

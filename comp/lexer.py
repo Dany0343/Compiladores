@@ -1,5 +1,4 @@
 from re import match
-from textwrap import indent
 from comp.token import (
     Token,
     TokenType,
