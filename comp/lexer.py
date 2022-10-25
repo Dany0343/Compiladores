@@ -16,7 +16,6 @@ class Lexer:
         self._read_position: int = 0
         self._position: int = 0
         self._indents = [0]
-        self._firts_dedent_flag = True
         # Cuando se inicializa se necesita correr por primera vez para que los caracteres se pongan correctamente
         self._read_character()
 
@@ -37,10 +36,16 @@ class Lexer:
         elif match(r'^\+$', self._character):  # Se escapa por tener un significado especial en las expresiones regulares
             token = [Token(TokenType.PLUS, self._character)]
         elif match(r'^\n$', self._character):
-            if self._peek_character == '\t':
+            if self._peek_character() == '' and len(self._indents) > 1:
+                token = [Token(TokenType.NEWLINE, self._character),  Token(TokenType.DEDENT, self._read_position)]
+                self._indents.pop()
+            elif self._peek_character() == '\t':
                 token = [Token(TokenType.NEWLINE, self._character)]
-            else:
+            elif len(self._indents) > 1:
                 token = [Token(TokenType.NEWLINE, self._character), Token(TokenType.DEDENT, self._read_position)]
+                self._indents.pop()
+            else: 
+                token = [Token(TokenType.NEWLINE, self._character)]
         elif match(r'^$', self._character):
             token = [Token(TokenType.EOF, self._character)]
         elif match(r'^\($', self._character): # Se escapa por tener un significado especial en las expresiones regulares
@@ -73,7 +78,11 @@ class Lexer:
             literal = self._read_identifier()
             # Ahora como podemos tener un identifier o keyword se genera esta funcion
             token_type = lookup_token_type(literal) # Esta funcion se genera en token.py
-
+            if self._peek_character() == '' and len(self._indents) > 1:
+                self._indents.pop()
+                return [Token(token_type, literal), Token(TokenType.NEWLINE, self._character),  Token(TokenType.DEDENT, self._read_position)]
+            elif self._peek_character() == '':
+                return [Token(token_type, literal), Token(TokenType.NEWLINE, self._character)]
             return [Token(token_type, literal)] # Se regresa lo que mande la funcion lookup y la literal
         # Se necesita saber si estamos frente a un numero
         elif self._is_number(self._character):
@@ -134,6 +143,12 @@ class Lexer:
         return self._source[self._read_position] # Por eso tenemos position y read position, porque se va viendo la posicion en la cual estamos y la siguiente es la que estamos leyendo constantemente
 
 
+    def _peek_character_plus(self) -> str: # Funcion para conocer el siguiente caracter que viene y echar un vistazo
+        if self._read_position_plus >= len(self._source):
+            return ''
+        return self._source[self._read_position_plus] # Por eso tenemos position y read position, porque se va viendo la posicion en la cual estamos y la siguiente es la que estamos leyendo constantemente
+
+
     def _make_two_character_token(self, token_type: TokenType) -> List[Token]: # Esta funcion toma el caracter actual, avanza y toma el siguiente para fusionarlos
         prefix = self._character # Se toma el prefijo el cual es el caracter actual
         self._read_character() # Nos movemos al siguiente
@@ -171,20 +186,13 @@ class Lexer:
 
     def indent_algorithm(self, literal: str) -> List[Token]: # Algoritmo para hacer la revision de si el token es indent or dedent
         dedents = [] # Una lista de tipo Token DEDENT que se regresara para posteriormente hacerle flatting y tener un array de 1 dimension
-        flag = False # Bandera que actua como switch para el trigger que desencadena el ultimo token DEDENT
         if len(literal) > self._indents[-1]:
             self._indents.append(len(literal))
-            # if not flag:
-            #     self._firts_dedent_flag = False
-            #     flag = True
             return [Token(TokenType.INDENT, literal)]
         elif len(literal) < self._indents[-1]:
             while len(literal) < self._indents[-1]:
                 self._indents.pop()
                 dedents.append(Token(TokenType.DEDENT, literal))
-            # if not flag:
-            #     self._firts_dedent_flag = False
-            #     flag = True
             return dedents
         elif len(literal) == self._indents[-1]:
             return [Token(TokenType.IGNORE, literal)]

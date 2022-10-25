@@ -2,12 +2,19 @@ import tokenize
 import io
 p = '''\
 a
-    b
-a
+	b
 x
+	y
+	owo
+
+
 '''
 text = tokenize.generate_tokens(io.StringIO(p).readline)
 [print(tok) for tok in text]
+
+for i in range(1,5):
+	print("xd")
+	
 
 '''
 a
