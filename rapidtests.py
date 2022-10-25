@@ -1,12 +1,10 @@
 import tokenize
 import io
 p = '''\
-for i in range(1,10):
-	print(i)
-
-def ola():
-	pass
-ola
+a
+    b
+a
+x
 '''
 text = tokenize.generate_tokens(io.StringIO(p).readline)
 [print(tok) for tok in text]
