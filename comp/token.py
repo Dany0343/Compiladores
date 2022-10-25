@@ -17,7 +17,7 @@ class TokenType(Enum):
     APPEND = auto()
     COMMA = auto()
     COLON = auto()
-    COMMENT = auto() # Pendiente
+    COMMENT = auto()
     DIV = auto()
     DEDENT = auto() 
     DOT = auto()
