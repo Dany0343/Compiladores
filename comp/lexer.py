@@ -38,14 +38,13 @@ class Lexer:
         elif match(r'^\+$', self._character):  # Se escapa por tener un significado especial en las expresiones regulares
             token = [Token(TokenType.PLUS, self._character)]
         elif match(r'^\n$', self._character):
-            if len(self._indents) == 2 and self._firts_dedent_flag == False:
-                if len(self._indents) == 2 and self._indents[1] == 1:
-                    self._firts_dedent_flag = True
-                    token = [Token(TokenType.NEWLINE, self._character), Token(TokenType.DEDENT, self._read_position)]
-                    # self._indents = [0]
-                else:
-                    token = [Token(TokenType.NEWLINE, self._character)]
-            else:
+            # if len(self._indents) == 2 and self._firts_dedent_flag == False:
+            #     if len(self._indents) == 2 and self._indents[1] == 1:
+            #         self._firts_dedent_flag = True
+            #         token = [Token(TokenType.NEWLINE, self._character), Token(TokenType.DEDENT, self._read_position)]
+            #     else:
+            #         token = [Token(TokenType.NEWLINE, self._character)]
+            # else:
                 token = [Token(TokenType.NEWLINE, self._character)]
         elif match(r'^$', self._character):
             token = [Token(TokenType.EOF, self._character)]
