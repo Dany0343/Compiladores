@@ -16,17 +16,12 @@ class Lexer:
         self._read_position: int = 0
         self._position: int = 0
         self._indents = [0]
+
         # Cuando se inicializa se necesita correr por primera vez para que los caracteres se pongan correctamente
         self._read_character()
 
 
     def next_token(self) -> List[Token]:
-
-        # Se va a revisar con expresiones regulares
-        """
-        En Python las expresiones regulares empiezan con cadenas row
-        Comience al principio de la cadena, encuentre un igual y que termine en esto, se quiere un igual desde el principio hasta el final
-        """
         self._skipSpaces() # Se ignorara la tokenizacion de los espacios en blanco aun cuando hay un token especial asignado a ello
         if match(r'^=$', self._character):
             if self._peek_character() == '=':
