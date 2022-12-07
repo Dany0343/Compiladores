@@ -1,13 +1,13 @@
 from unittest import TestCase
 from typing import cast
 
-from lpp.ast import (
+from comp.ast import (
     LetStatement,
     Identifier,
     Program,
 )
-from lpp.lexer import Lexer
-from lpp.parser import Parser
+from comp.lexer import Lexer
+from comp.parser import Parser
 
 
 class ParserTest(TestCase):

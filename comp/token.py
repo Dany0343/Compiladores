@@ -24,7 +24,7 @@ class TokenType(Enum):
     DQUOTE = auto()
     ELSE = auto()
     EOF = auto()
-    EQ = auto() # '='
+    EQ = auto() # '=='
     EXC = auto() # '!'
     FALSE = auto()
     FOR = auto()
