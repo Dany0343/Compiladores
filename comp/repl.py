@@ -21,6 +21,7 @@ def start_repl() -> None:   # Aquí no tenemos self como parametro ya que es una
             tokens.append(lexer.next_token())
 
         newtokens = [item for items in tokens for item in items] # Se usa un list comprehension para hacerle flatting a la lista
+
         for i in newtokens:
             if i.token_type == TokenType.EOF:
                 break

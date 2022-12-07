@@ -225,3 +225,5 @@ class Lexer:
             return dedents
         elif len(literal) == self._indents[-1]:
             return [Token(TokenType.IGNORE, literal)]
+        else:
+            return [Token(TokenType.IGNORE, literal)]
