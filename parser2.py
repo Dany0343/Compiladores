@@ -4869,7 +4869,7 @@ class GeneratedParser(Parser):
         self._reset(mark)
         return None
 
-    KEYWORDS = ('False', 'as', 'break', 'from', 'except', 'while', 'if', 'None', 'continue', 'import', 'or', 'del', 'raise', 'try', 'assert', 'def', 'class', 'return', 'in', 'and', 'lambda', 'pass', 'elif', 'True', 'yield', 'with', 'finally', 'is', 'nonlocal', 'global', 'not', 'for', 'else')
+    KEYWORDS = ('continue', 'None', 'try', 'while', 'pass', 'elif', 'nonlocal', 'True', 'raise', 'finally', 'for', 'as', 'and', 'del', 'except', 'if', 'lambda', 'not', 'is', 'in', 'class', 'return', 'from', 'assert', 'yield', 'def', 'global', 'with', 'or', 'import', 'break', 'else', 'False')
     SOFT_KEYWORDS = ()
 
 
