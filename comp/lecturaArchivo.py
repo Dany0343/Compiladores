@@ -11,7 +11,7 @@ EOF_TOKEN: Token = Token(TokenType.EOF, '') # Variable global que nos indica el 
 
 def leer():
     # filename = 'ProyectoFinal.txt'
-    filename = 'test.txt'
+    filename = 'test.py'
     filename = open(filename, 'r')
     source = ''
     for i in filename: # Extrayendo texto de archivo en un string
@@ -25,6 +25,9 @@ def leer():
 
     newtokens = [item for items in tokens for item in items] # Se usa un list comprehension para hacerle flatting a la lista
     
+    # List comprehension para filtrar los tokens ignore
+    newtokens = [items for items in newtokens if items.token_type != TokenType.IGNORE]
+
     print("Código original: \n")
     print(source)
     
