@@ -33,7 +33,7 @@ def leer():
     
     print("\n\n")
 
-    print("Código Final: \n")
+    print("Los tokens son: \n")
     for i in newtokens:
         if i.token_type == TokenType.EOF:
             break
