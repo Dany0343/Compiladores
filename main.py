@@ -1,6 +1,9 @@
 from comp.repl import start_repl
 from comp.lecturaArchivo import leer
-from comp.ast2 import astGen
+from comp.ast2 import (
+    astGen,
+    jsonAst
+)
 
 import os
 import subprocess
@@ -28,16 +31,17 @@ def main() -> None:
             # subprocess.call("sudo source /home/dany0343/dev/Compiladores/venv/bin/activate", shell=True)
             subprocess.call("python3 parser2.py test.py", shell=True)
 
-            print("Se procede a ver el AST")
+            print("\n\nSe procede a ver el AST\n")
             filename = 'test.py'
             filename = open(filename, 'r')
             source = ''
             for i in filename: # Extrayendo texto de archivo en un string
                 source = source + i
 
-            arbol = astGen(source)
-            print(arbol)
+            astGen(source)
 
+            print("Una opción que se vea mejor")
+            jsonAst(source)
 
         elif opc == 2:
             start_repl()
