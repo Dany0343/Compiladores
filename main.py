@@ -7,6 +7,7 @@ from comp.ast2 import (
 
 import os
 import subprocess
+import time
 
 def main() -> None:
     while 1:
@@ -26,7 +27,12 @@ def main() -> None:
         print("Bienvenido al compilador de Python a C++")
         opc = int(input("Opciones\n1. Leer el programa automaticamente desde un archivo\n2. Introducir el código a ser compilado\n3. Salir\n>> "))
         if opc == 1:
+            os.system('clear')
             leer()
+            input("\n\nPresiona enter para continuar...")
+            os.system('clear')
+
+            os.system('clear')
             print("\n\nAhora parseandolo tenemos\n")
             # subprocess.call("sudo source /home/dany0343/dev/Compiladores/venv/bin/activate", shell=True)
             try:
@@ -39,12 +45,19 @@ def main() -> None:
                     source = source + i
 
                 astGen(source)
+                input("\n\nPresiona enter para continuar...")
+                os.system('clear')
 
+                os.system('clear')
                 print("\nUna opción que se vea mejor\n")
                 jsonAst(source)
-
+                input("\n\nPresiona enter para continuar...")
+                os.system('clear')
+                
             except SyntaxError:
                 print("El codigo tiene errores, revise de nuevo")
+
+
 
         elif opc == 2:
             start_repl()
