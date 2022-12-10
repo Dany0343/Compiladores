@@ -5,6 +5,7 @@ from comp.token import (
     TokenType
 )
 from typing import List
+import subprocess
 
 EOF_TOKEN: Token = Token(TokenType.EOF, '') # Variable global que nos indica el fin de la oracion
 tokens: List[List[Token]] = []
@@ -21,9 +22,15 @@ def start_repl() -> None:   # Aquí no tenemos self como parametro ya que es una
             tokens.append(lexer.next_token())
 
         newtokens = [item for items in tokens for item in items] # Se usa un list comprehension para hacerle flatting a la lista
+        # List comprehension para filtrar los tokens ignore
+        newtokens = [items for items in newtokens if items.token_type != TokenType.IGNORE]
 
         for i in newtokens:
             if i.token_type == TokenType.EOF:
                 break
             else:
                 print(i)
+                print("Se parsea")
+                print("\n\nAhora parseandolo tenemos\n")
+                print("En construcción... :c")
+                # subprocess.call("python3 parser2.py test.py", shell=True)

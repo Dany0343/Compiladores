@@ -4,6 +4,7 @@ from comp.token import(
     TokenType
 )
 import os
+import subprocess
 # Se procede a definir lo que falta despues del testing
 from typing import List
 
