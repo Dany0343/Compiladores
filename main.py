@@ -1,5 +1,7 @@
 from comp.repl import start_repl
 from comp.lecturaArchivo import leer
+from comp.ast2 import astGen
+
 import os
 import subprocess
 
@@ -25,6 +27,17 @@ def main() -> None:
             print("\n\nAhora parseandolo tenemos\n")
             # subprocess.call("sudo source /home/dany0343/dev/Compiladores/venv/bin/activate", shell=True)
             subprocess.call("python3 parser2.py test.py", shell=True)
+
+            print("Se procede a ver el AST")
+            filename = 'test.py'
+            filename = open(filename, 'r')
+            source = ''
+            for i in filename: # Extrayendo texto de archivo en un string
+                source = source + i
+
+            arbol = astGen(source)
+            print(arbol)
+
 
         elif opc == 2:
             start_repl()
