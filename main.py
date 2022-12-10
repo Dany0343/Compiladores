@@ -29,19 +29,22 @@ def main() -> None:
             leer()
             print("\n\nAhora parseandolo tenemos\n")
             # subprocess.call("sudo source /home/dany0343/dev/Compiladores/venv/bin/activate", shell=True)
-            subprocess.call("python3 parser2.py test.py", shell=True)
+            try:
+                subprocess.call("python3 parser2.py test.py", shell=True)
+                print("\n\nSe procede a ver el AST\n")
+                filename = 'test.py'
+                filename = open(filename, 'r')
+                source = ''
+                for i in filename: # Extrayendo texto de archivo en un string
+                    source = source + i
 
-            print("\n\nSe procede a ver el AST\n")
-            filename = 'test.py'
-            filename = open(filename, 'r')
-            source = ''
-            for i in filename: # Extrayendo texto de archivo en un string
-                source = source + i
+                astGen(source)
 
-            astGen(source)
+                print("\nUna opción que se vea mejor\n")
+                jsonAst(source)
 
-            print("Una opción que se vea mejor")
-            jsonAst(source)
+            except SyntaxError:
+                print("El codigo tiene errores, revise de nuevo")
 
         elif opc == 2:
             start_repl()
