@@ -4,10 +4,9 @@ from comp.ast2 import (
     astGen,
     jsonAst
 )
-
+from comp.openai import transf
 import os
 import subprocess
-import time
 
 def main() -> None:
     while 1:
@@ -36,9 +35,9 @@ def main() -> None:
             print("\n\nAhora parseandolo tenemos\n")
             # subprocess.call("sudo source /home/dany0343/dev/Compiladores/venv/bin/activate", shell=True)
             try:
-                subprocess.call("python3 parser2.py test.py", shell=True)
+                subprocess.call("python3 parser2.py test.txt", shell=True)
                 print("\n\nSe procede a ver el AST\n")
-                filename = 'test.py'
+                filename = 'test.txt'
                 filename = open(filename, 'r')
                 source = ''
                 for i in filename: # Extrayendo texto de archivo en un string
@@ -53,7 +52,13 @@ def main() -> None:
                 jsonAst(source)
                 input("\n\nPresiona enter para continuar...")
                 os.system('clear')
-                
+
+                os.system('clear')
+                print("Se procede a transformar el AST")
+                print("Compilando...")
+                transf(source)
+
+
             except SyntaxError:
                 print("El codigo tiene errores, revise de nuevo")
 
