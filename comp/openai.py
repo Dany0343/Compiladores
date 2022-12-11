@@ -48,14 +48,14 @@ def generate_completion(input_prompt, num_tokens):
     temperature = 0.0
     if SET_TEMPERATURE_NOISE:
         temperature += 0.1 * round(random.uniform(-1, 1), 1)
-    response = openai.Completion.create(engine='code-davinci-003', prompt=input_prompt, temperature=temperature,
+    response = openai.Completion.create(engine='code-davinci-002', prompt=input_prompt, temperature=temperature,
                                         max_tokens=num_tokens, stream=STREAM, stop='===================\n',
                                         top_p=1.0, frequency_penalty=0.0, presence_penalty=0.0)
     return response
 
 
 def get_generated_response(response):
-    generatedFile = "-Codigo:-\n"
+    generatedFile = "// -Codigo:-\n"
     while True:
         nextResponse = next(response)
         completion = nextResponse['choices'][0]['text']

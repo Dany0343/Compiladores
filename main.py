@@ -57,7 +57,8 @@ def main() -> None:
                 print("Se procede a transformar el AST")
                 print("Compilando...")
                 run()
-
+                input("\n\nPresiona enter para continuar...")
+                os.system('clear')
 
             except SyntaxError:
                 print("El codigo tiene errores, revise de nuevo")
