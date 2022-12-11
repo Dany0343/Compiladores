@@ -16,5 +16,5 @@ def astGen(code):
 
 
 def jsonAst(code):
-    ast = ast2json(parse(open('test.txt').read()))
+    ast = ast2json(parse(open('ProyectoFinal.txt').read()))
     print(json.dumps(ast, indent=4))

@@ -12,7 +12,7 @@ EOF_TOKEN: Token = Token(TokenType.EOF, '') # Variable global que nos indica el 
 
 def leer():
     # filename = 'ProyectoFinal.txt'
-    filename = 'test.txt'
+    filename = 'ProyectoFinal.txt'
     filename = open(filename, 'r')
     source = ''
     for i in filename: # Extrayendo texto de archivo en un string
