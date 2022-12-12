@@ -40,7 +40,7 @@ def create_input_prompt(length=3000):
         inputPrompt += f.read() + '\n'
 
     inputPrompt = inputPrompt[:length]
-    inputPrompt += '\n\nConvert this Python Code to' + 'C++' + '\n'
+    inputPrompt += '\n\n===================\n// ' + 'C++:' + '\n'
     return inputPrompt
 
 
@@ -88,15 +88,16 @@ def iterate_for_compilable_solution(prompt, maxIterations):
         textResponse = get_generated_response(response)
         write_cpp_file(textResponse)
         fileName = PYTHON_FILE_TO_CONVERT.split(".")[0]
-        with contextlib.redirect_stdout(None):
-            isSolutionCompilable = test_cpp_compilation(fileName + ".cpp")
-        if isSolutionCompilable:
-            #print("Found a compilable solution after {} iterations".format(it+1))
-            #print("C++ File: {}".format(fileName + ".cpp"))
-            #print("Compiled Executable: {}".format(fileName + ".exe"))
-            break
-        if it == maxIterations - 1:
-            print("")
+        print("Revise el codigo C++")
+        # with contextlib.redirect_stdout(None):
+        #     isSolutionCompilable = test_cpp_compilation(fileName + ".cpp")
+        # if isSolutionCompilable:
+        #     #print("Found a compilable solution after {} iterations".format(it+1))
+        #     #print("C++ File: {}".format(fileName + ".cpp"))
+        #     #print("Compiled Executable: {}".format(fileName + ".exe"))
+        #     break
+        # if it == maxIterations - 1:
+        #     print("")
 
 
 def run():
