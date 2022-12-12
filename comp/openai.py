@@ -40,7 +40,7 @@ def create_input_prompt(length=3000):
         inputPrompt += f.read() + '\n'
 
     inputPrompt = inputPrompt[:length]
-    inputPrompt += '\n\n===================\n// ' + 'C++:' + '\n'
+    inputPrompt += '\n\nConvert this Python Code to' + 'C++' + '\n'
     return inputPrompt
 
 
@@ -103,5 +103,3 @@ def run():
     initialize_openai_api()
     prompt = create_input_prompt()
     iterate_for_compilable_solution(prompt=prompt, maxIterations=1)
-
-run()
