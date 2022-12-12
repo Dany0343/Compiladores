@@ -10,7 +10,7 @@ SET_TEMPERATURE_NOISE = False
 MAX_TOKENS_DEFAULT = 1000
 
 STREAM = True
-API_KEYS_LOCATION = "./config"
+API_KEYS_LOCATION = "./configg/config"
 PYTHON_FILE_TO_CONVERT = "ProyectoFinal.txt"
 
   
