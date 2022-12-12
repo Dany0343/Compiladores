@@ -5361,7 +5361,7 @@ class PythonParser(Parser):
             and
             (opt := self._tmp_142(),)
         ):
-            return self . raise_syntax_error_known_range ( "Generator expression debe tener parentesis" , a , ( b [- 1] . ifs [- 1] if b [- 1] . ifs else b [- 1] . iter ) )
+            return self . raise_syntax_error_known_range ( "Generator expression must be parenthesized" , a , ( b [- 1] . ifs [- 1] if b [- 1] . ifs else b [- 1] . iter ) )
         self._reset(mark)
         if (
             (a := self.name())
@@ -5372,14 +5372,14 @@ class PythonParser(Parser):
             and
             (for_if_clauses := self.for_if_clauses())
         ):
-            return self . raise_syntax_error_known_range ( "invalid syntax. Tal vez te referias a '==' o ':=' en vez de '='?" , a , b )
+            return self . raise_syntax_error_known_range ( "invalid syntax. Maybe you meant '==' or ':=' instead of '='?" , a , b )
         self._reset(mark)
         if (
             (a := self.args())
             and
             (b := self.for_if_clauses())
         ):
-            return self . raise_syntax_error_known_range ( "Generator expression debe tener parentesis" , a [0] [- 1] , ( b [- 1] . ifs [- 1] if b [- 1] . ifs else b [- 1] . iter ) , ) if len ( a [0] ) > 1 else None
+            return self . raise_syntax_error_known_range ( "Generator expression must be parenthesized" , a [0] [- 1] , ( b [- 1] . ifs [- 1] if b [- 1] . ifs else b [- 1] . iter ) , ) if len ( a [0] ) > 1 else None
         self._reset(mark)
         if (
             (args := self.args())
@@ -5390,7 +5390,7 @@ class PythonParser(Parser):
             and
             (b := self.for_if_clauses())
         ):
-            return self . raise_syntax_error_known_range ( "Generator expression debe tener parentesis" , a , ( b [- 1] . ifs [- 1] if b [- 1] . ifs else b [- 1] . iter ) , )
+            return self . raise_syntax_error_known_range ( "Generator expression must be parenthesized" , a , ( b [- 1] . ifs [- 1] if b [- 1] . ifs else b [- 1] . iter ) , )
         self._reset(mark)
         if (
             (a := self.args())
@@ -5423,7 +5423,7 @@ class PythonParser(Parser):
             and
             (for_if_clauses := self.for_if_clauses())
         ):
-            return self . raise_syntax_error_known_range ( "invalid syntax. Tal vez te referias '==' o ':=' en vez de '='?" , a , b )
+            return self . raise_syntax_error_known_range ( "invalid syntax. Maybe you meant '==' or ':=' instead of '='?" , a , b )
         self._reset(mark)
         if (
             self.negative_lookahead(self._tmp_144, )
@@ -5432,7 +5432,7 @@ class PythonParser(Parser):
             and
             (b := self.expect('='))
         ):
-            return self . raise_syntax_error_known_range ( "expression no puede tener una asignacion, tal vez te referias \"==\"?" , a , b , )
+            return self . raise_syntax_error_known_range ( "expression cannot contain assignment, perhaps you meant \"==\"?" , a , b , )
         self._reset(mark)
         return None
 
@@ -5495,7 +5495,7 @@ class PythonParser(Parser):
             and
             (b := self.expression_without_invalid())
         ):
-            return ( self . raise_syntax_error_known_range ( "invalid syntax. Tal vez olvidaste una coma o comilla?" , a , b ) if not isinstance ( a , ast . Name ) or a . id not in ( "print" , "exec" ) else None )
+            return ( self . raise_syntax_error_known_range ( "invalid syntax. Perhaps you forgot a comma?" , a , b ) if not isinstance ( a , ast . Name ) or a . id not in ( "print" , "exec" ) else None )
         self._reset(mark)
         if (
             (a := self.disjunction())
