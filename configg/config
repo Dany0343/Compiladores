@@ -1,3 +1,7 @@
 [openai]
 organization_id=
+<<<<<<< HEAD
 secret_key=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
+=======
+secret_key=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
+>>>>>>> af375e236508a4bfc64292d8a95491e0d2815471
